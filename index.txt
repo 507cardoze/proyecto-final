@@ -1,0 +1,221 @@
+// funciones
+
+entero validaMed (entero codMed, cadena codEspe){
+    si(codMed < 0 O codMed > 4){
+        retorna 0;
+    }
+    de otro modo si(codMed == 0 Y codEspe == "neu"){
+        retorna 1;
+    }
+    de otro modo si (codMed == 1 Y codEspe == "car"){
+        retorna 1;
+    }
+    de otro modo si (codMed == 2 Y codEspe == "carV"){
+        retorna 1;
+    }
+    de otro modo si (codMed == 3 Y codEspe == "endo"){
+        retorna 1;
+    }
+    de otro modo si (codMed == 4 Y codEspe == "medG"){
+        retorna 1;
+    }
+    de otro modo {
+        retorna 0;
+    }
+}
+
+
+entero contAtencion (entero array[]){
+    entero i, contador = 0;
+    // array 0 al 7
+
+    para(i = 0; i < 8; i = i + 1){
+        si(array[i] == 1){
+            contador = contador + 1;
+        }
+    }
+
+    retornar contador;
+}
+
+
+entero topContador (entero array1[], entero array2[], entero array3[], entero array4[], entero array5[]){
+    entero contador1;
+    entero contador2;
+    entero contador3;
+    entero contador4;
+    entero contador5;
+
+    // contar cada arreglo
+
+    contador1 = contAtencion(array1);
+    contador2 = contAtencion(array2);
+    contador3 = contAtencion(array3);
+    contador4 = contAtencion(array4);
+    contador5 = contAtencion(array5);
+
+    si(contador1 > contador2 Y contador1 > contador3 Y contador1 > contador4 Y contador1 > contador5){
+        retornar 1;
+    }
+    de otro modo si (contador2 > contador3 Y contador2 > contador4 Y contador2 > contador5){
+        retornar 2;
+    }
+    de otro modo si (contador3 > contador4 Y contador3 > contador5){
+        retornar 3;
+    }
+    de otro modo si (contador4 > contador5){
+        retornar 4;
+    }
+    de otro modo {
+        retornar 5;
+    }
+}
+
+
+Algoritmo CovidClinica {
+
+    //bloque declarativa
+
+    //Neumólogo
+    entero medicoUno = 0;
+    cadena espeMedUno = "neu";
+    entero arrAtenUno[8];
+
+    //Cardiólogo,
+    entero medicoDos = 1;
+    cadena espeMedDos = "car";
+    entero arrAtenDos[8];
+
+
+    //Cardiovascular
+    entero medicoTres = 2;
+    cadena espeMedTres = "carV";
+    entero arrAtenTres[8];
+
+    //Endocrinólogo
+    entero medicoCuatro = 3;
+    cadena espeMedCuatro = "endo";
+    entero arrAtenCuatro[8];
+
+    //Medicina general
+    entero medicoCinco = 4;
+    cadena espeMedCinco = "medG";
+    entero arrAtenCinco[8];
+
+    cadena confirm = 's';
+    entero soliciCodMed;
+    entero soliciCodEsp;
+    entero i;
+
+
+    // bloque de instrucciones
+
+
+    // inicializar todos los arreglos en zero.
+
+    para(i = 0; i < 8; i = i + 1){
+        arrAtenUno[i] = 0;
+        arrAtenDos[i] = 0;
+        arrAtenTres[i] = 0;
+        arrAtenCuatro[i] = 0;
+        arrAtenCinco[i] = 0;
+    }
+
+    mientras(confirm == 's' O confirm == 'S'){
+        imprimir("Introduzca el codigo de medico: ");
+        leer(soliciCodMed);
+        imprimir("Introduzca el codigo de especialidad: ");
+        leer(soliciCodEsp);
+
+        //validacion de medico y su especialidad
+
+        mientras(validaMed(soliciCodMed, soliciCodEsp) == 0){
+            imprimir("Introduzca el codigo de medico correcto: ");
+            leer(soliciCodMed);
+            imprimir("Introduzca el codigo de especialidad correcto: ");
+            leer(soliciCodEsp);
+        }
+
+        //se valida el doctor y la cantidad de pacientes que ocupa, si el contador de pacientes es menor a 8 que es el cupo maximo pone el entero 1 en la casilla vacia y se imprime al usuario si tiene cita y con quien.
+
+        si(soliciCodMed == medicoUno Y contAtencion(arrAtenUno) <= 8){
+            arrAtenUno[contAtencion(arrAtenUno)] = 1;
+            imprimir("Usted sera atendido por el medico: " + medicoUno + " el dia de hoy");
+
+        }
+        de otro modo si (soliciCodMed == medicoDos Y contAtencion(arrAtenDos) <= 8){
+            arrAtenDos[contAtencion(arrAtenDos)] = 1;
+            imprimir("Usted sera atendido por el medico: " + medicoDos + " el dia de hoy");
+
+        }
+        de otro modo si (soliciCodMed == medicoTres Y contAtencion(arrAtenTres) <= 8){
+            arrAtenTres[contAtencion(arrAtenTres)] = 1;
+            imprimir("Usted sera atendido por el medico: " + medicoTres + " el dia de hoy");
+
+        }
+        de otro modo si (soliciCodMed == medicoCuatro Y contAtencion(arrAtenCuatro) <= 8){
+            arrAtenCuatro[contAtencion(arrAtenCuatro)] = 1;
+            imprimir("Usted sera atendido por el medico: " + medicoCuatro + " el dia de hoy");
+
+        }
+        de otro modo si (soliciCodMed == medicoCinco Y contAtencion(arrAtenCinco) <= 8){
+            arrAtenCinco[contAtencion(arrAtenCinco)] = 1;
+            imprimir("Usted sera atendido por el medico: " + medicoCinco + " el dia de hoy");
+
+        }
+        de otro modo{
+
+            imprimir("No hay cupo para el dia de hoy.");
+        }
+
+        imprimir("Desea solicitar otra cita?");
+        leer(confirm);
+    }
+
+    // impresion de los valores acumulados una vez el usuario salga del proceso.
+    // cantidad de pacientes por medico en total
+
+    imprimir("Cantidad de atenciones del medico" + medicoUno + " : " + contAtencion(arrAtenUno));
+    imprimir("Cantidad de atenciones del medico" + medicoDos + " : " + contAtencion(arrAtenDos));
+    imprimir("Cantidad de atenciones del medico" + medicoTres + " : " + contAtencion(arrAtenTres));
+    imprimir("Cantidad de atenciones del medico" + medicoCuatro + " : " + contAtencion(arrAtenCuatro));
+    imprimir("Cantidad de atenciones del medico" + medicoCinco + " : " + contAtencion(arrAtenCinco));
+
+    // medico que mas pacientes atendio , cuantos fuero y de que especialidad
+    // especialidad mas solicitada
+
+    si(medicoUno == topContador(arrAtenUno, arrAtenDos, arrAtenTres, arrAtenCuatro, arrAtenCinco)){
+        imprimir("El medico " + medicoUno + " es el que tiene mas visitas con la especialidad de Neumólogo");
+        imprimir("La especialidad mas solicitada es Neumólogo");
+    }
+    de otro modo si (medicoDos == topContador(arrAtenUno, arrAtenDos, arrAtenTres, arrAtenCuatro, arrAtenCinco)){
+        imprimir("El medico " + medicoDos + " es el que tiene mas visitas con la especialidad de Cardiólogo");
+        imprimir("La especialidad mas solicitada es Cardiólogo");
+    }
+    de otro modo si (medicoTres == topContador(arrAtenUno, arrAtenDos, arrAtenTres, arrAtenCuatro, arrAtenCinco)){
+        imprimir("El medico " + medicoTres + " es el que tiene mas visitas con la especialidad de Cardiovascular");
+        imprimir("La especialidad mas solicitada es  Cardiovascular");
+    }
+    de otro modo si (medicoCuatro == topContador(arrAtenUno, arrAtenDos, arrAtenTres, arrAtenCuatro, arrAtenCinco)){
+        imprimir("El medico " + medicoCuatro + " es el que tiene mas visitas con la especialidad de Endocrinólogo");
+        imprimir("La especialidad mas solicitada es Endocrinólogo");
+    }
+    de otro modo si (medicoCinco == topContador(arrAtenUno, arrAtenDos, arrAtenTres, arrAtenCuatro, arrAtenCinco)){
+        imprimir("El medico " + medicoCinco + " es el que tiene mas visitas con la especialidad de Medicina general");
+         imprimir("La especialidad mas solicitada es Medicina general");
+    }
+    de otro modo{
+        imprimir("No se registran citas.");
+    }
+
+    
+    // cantidad de pacientes atendidos en total
+
+    imprimir("Total de pacientes atendidos hoy: " + 
+    contAtencion(arrAtenUno) + 
+    contAtencion(arrAtenDos) + 
+    contAtencion(arrAtenTres) + 
+    contAtencion(arrAtenCuatro) + 
+    contAtencion(arrAtenCinco));
+
+}
